@@ -2,32 +2,36 @@ import { useState } from 'react'
 
 const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
-const Statistics = (props) => <p> {props.title} {props.value}</p>
+const Statistics = (props) => {
+return(
+<tr>
+  <td>{props.title}</td> 
+  <td>{props.value}</td> 
+</tr>
+
+)}
 
 const AllStats = ({ good, neutral, bad, total }) => {
   if( total === 0 ){
     return (
-      <p>No feedback given</p>
+      <>No feedback given</>
       )
     } 
-    const average = () => ((good - bad) / total); 
-    const positive = () => (good * 100 / total ) + '%';
+
   return (
-    <>
+    <table>
+    <tbody>
     <Statistics title = 'Good' value = { good } />
     <Statistics title = 'Neutral' value = { neutral } />
     <Statistics title = 'Bad' value = { bad } />
     <Statistics title = 'Total' value = { total }/>
-    <Statistics title = 'Average' value = { average() } />
-    <Statistics title = 'Positive' value = { positive() } s/>
-    </>
+    <Statistics title = 'Average' value = { ((good - bad) / total).toFixed(2) } />
+    <Statistics title = 'Positive' value = { (good / total * 100).toFixed(2) + '%' } />
+    </tbody>
+    </table>
   )
   
 }
-
-
-  
-  
 
 const App = () => {
   // save clicks of each button to its own state
@@ -54,15 +58,14 @@ const App = () => {
   }
  
   return (
-    <div>
+    <>
         <h1>Give feedback</h1>
         <Button onClick = {handleGoodClick} text = "Good"/>
         <Button onClick = {handleNeutralClick} text = "Neutral"/>
         <Button onClick = {handleBadClick} text = "Bad"/>
         <h3>Statistics</h3>
         <AllStats good = { good } neutral = {neutral} bad = { bad } total = {total}/>
-       
-    </div>
+    </>
   )
 }
 
