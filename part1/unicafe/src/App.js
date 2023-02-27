@@ -5,24 +5,29 @@ const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
 const App = () => {
   // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  const [total, setTotal] = useState(0);
+ 
 
   const handleGoodClick = () => {
-    console.log('handleClick')
-    setGood( good + 1);
+    const upgradeGood = good + 1;
+    setGood( upgradeGood );
+    setTotal( upgradeGood + neutral + bad);
   }
   const handleNeutralClick = () => {
     console.log('handleClick')
-    setNeutral( neutral + 1);
+    const upgradeNeutral = neutral + 1;
+    setNeutral(upgradeNeutral  );
+    setTotal(upgradeNeutral + good +bad );
   }
   const handleBadClick = () => {
-    console.log('handleClick')
-    setBad( bad + 1);
+    const upgradeBad = bad + 1;
+    setBad( upgradeBad );
+    setTotal( upgradeBad + good + neutral);
   }
-
-
+ 
   return (
     <div>
         <h1>Give feedback</h1>
@@ -33,6 +38,9 @@ const App = () => {
         <p>Good { good }</p>
         <p>Neutral { neutral }</p>
         <p>Bad { bad }</p>
+        <p>Total { total }</p>
+        <p>Average {(good - bad) / total}</p>
+        <p>Positive { good * 100 / total } %</p>
 
      
     </div>
