@@ -16,6 +16,7 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState({});
 
   function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -27,14 +28,26 @@ const App = () => {
    setSelected(random);
   }
 
+  const handleVote = () => {
+    const index = selected;
+    const copy = { ...votes, [index]: (votes[index] || 0) + 1 }
+   console.warn(copy);
+    setVotes(copy);
+   
+
+  }
+
   return (
     <>
     <div>
       { anecdotes[selected] }
+      <div>has { votes[selected] || 0} votes</div>
     </div>
+    <button onClick = {handleVote}>Vote</button>
       <button onClick = {handleClick}>Next anecdot</button>
     </>
   )
 }
+
 
 export default App
