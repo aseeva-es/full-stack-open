@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 
-
+const Heading = ({ text }) => <h3>{text}</h3>
 
 const App = () => {
   const anecdotes = [
@@ -31,20 +31,36 @@ const App = () => {
   const handleVote = () => {
     const index = selected;
     const copy = { ...votes, [index]: (votes[index] || 0) + 1 }
-   console.warn(copy);
     setVotes(copy);
-   
+  }
 
+ 
+
+  const getWinner = (votes) => {
+    const keys = Object.keys(votes);
+    let winIndex;
+    let winVotes=0;
+    for (let i = 0; i < keys.length; i++){
+      if(votes[keys[i]] > winVotes){
+      winIndex = keys[i];
+      winVotes = votes[keys[i]];
+      }
+    }  
+    return winIndex;
   }
 
   return (
     <>
+    <Heading text = 'Anecdote of the day'/>
     <div>
-      { anecdotes[selected] }
-      <div>has { votes[selected] || 0} votes</div>
+      {selected}. { anecdotes[selected] }
     </div>
+      <div>has { votes[selected] || 0} votes</div>
     <button onClick = {handleVote}>Vote</button>
       <button onClick = {handleClick}>Next anecdot</button>
+      <Heading text = 'Anecdote with most votes'/>
+      <div>{ anecdotes[getWinner(votes)] }</div>
+      <div>has { votes[getWinner(votes)] || 0} votes</div>
     </>
   )
 }
