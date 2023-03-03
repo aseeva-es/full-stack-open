@@ -5,18 +5,24 @@ const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
   ]) 
-  const [newName, setNewName] = useState('')
+  const [newName, setNewName] = useState('');
 
 
 const addName = (e) => {
   e.preventDefault()
-  const newPerson = {
-    name: newName,
-   
-  }
-  setPersons(persons.concat(newPerson));
-  setNewName('');
-  }
+  const doubleNames = persons.filter((person)=>person.name === newName);
+
+  if(!doubleNames.length){
+      const newPerson = {
+        name: newName,
+      }
+      setPersons(persons.concat(newPerson)); 
+    } else {
+        alert(`${newName} is already added to phonebook`);
+    }
+    setNewName('');
+}
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -35,7 +41,9 @@ const addName = (e) => {
       <h2>Numbers</h2>
     {
 persons.map((person)=> <div key = { person.name }>{ person.name}</div>)
+
     }
+    
     </div>
   )
 }
