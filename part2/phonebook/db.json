@@ -29,6 +29,16 @@
       "name": "Peter Pen",
       "number": "040 657253634",
       "id": 6
+    },
+    {
+      "name": "Mimi Lukkonen",
+      "number": "023 76238767",
+      "id": 7
+    },
+    {
+      "name": "arto hellas",
+      "number": "",
+      "id": 8
     }
   ]
 }
