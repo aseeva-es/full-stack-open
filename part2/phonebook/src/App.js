@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import PersonForm from "./components/PersonForm";
 import Search from "./components/Search";
 import Persons from "./components/Persons";
-import getPersons from "./services/getPersons";
+import personsModule from "./services/personsModule";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,7 +11,7 @@ const App = () => {
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    getPersons
+    personsModule
     .getAll()
     .then(initialPersons => {
       setPersons(initialPersons)
@@ -26,8 +26,8 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      getPersons
-      .create(newPerson)
+      personsModule
+      .createPerson(newPerson)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson));
       })
@@ -36,6 +36,17 @@ const App = () => {
     }
     setNewNumber("");
     setNewName("");
+  };
+
+  const onDeletePerson = (person) => {
+    if (window.confirm(`Delete ${person.name}?`)) {
+      personsModule
+        .deletePerson(person.id)
+        .then(removedPerson => {
+          setPersons(persons.filter((pers)=>pers.id != person.id));
+        })
+    }
+    
   };
 
   const handleNameChange = (event) => {
@@ -62,7 +73,10 @@ const App = () => {
         onChange2={ handleNumberChange }
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} searchInput = {searchInput}/>
+      <Persons
+       persons={persons} 
+       searchInput = {searchInput} 
+       onDeletePerson = {onDeletePerson}/>
     </div>
   );
 };

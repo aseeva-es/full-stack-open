@@ -1,9 +1,16 @@
+import Button from "./Button";
 
-const Person = ({name, number}) => {
+const Person = ({name, number, onDeletePerson, person}) => {
     return(
-        <div name = {name} number = {number}>
+      <div>
+        <span name = {name} number = {number}>
         {name} {number}
+      </span> 
+      <span>
+      <Button onDeletePerson={onDeletePerson} person = {person}/>
+      </span>
       </div>
+      
     )
 }
 
