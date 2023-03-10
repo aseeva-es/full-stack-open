@@ -11,12 +11,10 @@ const App = () => {
   const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
-    personsModule
-    .getAll()
-    .then(initialPersons => {
-      setPersons(initialPersons)
-    })
-  }, [])
+    personsModule.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
+    });
+  }, []);
 
   const addName = (e) => {
     e.preventDefault();
@@ -26,28 +24,37 @@ const App = () => {
         name: newName,
         number: newNumber,
       };
-      personsModule
-      .createPerson(newPerson)
-      .then(returnedPerson => {
+      personsModule.createPerson(newPerson)
+      .then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
-      })
+        setNewNumber("");
+        setNewName("");
+      });
     } else {
-        alert(`${newName} is already added to phonebook`);
+      if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+        const changedPerson = {...doubleNames[0], number: newNumber };
+        personsModule
+        .changePerson(changedPerson)
+        .then(changedPerson => {
+          setPersons(persons.map((person)=>{
+          return person.id === changedPerson.id ? changedPerson : person;
+          }))
+          setNewNumber("");
+          setNewName("");
+        })
+
+        }
     }
-    setNewNumber("");
-    setNewName("");
   };
 
   const onDeletePerson = (person) => {
     if (window.confirm(`Delete ${person.name}?`)) {
-      personsModule
-        .deletePerson(person.id)
-        .then(removedPerson => {
-          setPersons(persons.filter((pers)=>pers.id != person.id));
-        })
+      personsModule.deletePerson(person.id).then((removedPerson) => {
+        setPersons(persons.filter((pers) => pers.id != person.id));
+      });
     }
-    
   };
+
 
   const handleNameChange = (event) => {
     setNewName(event.target.value);
@@ -63,20 +70,22 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Search onChange={ handleSearchInput } value={ searchInput } />
+      <Search onChange={handleSearchInput} value={searchInput} />
       <h2>Add new</h2>
       <PersonForm
-        onSubmit={ addName }
-        value={ newName }
-        onChange={ handleNameChange }
-        value2={ newNumber }
-        onChange2={ handleNumberChange }
+        onSubmit={addName}
+        value={newName}
+        onChange={handleNameChange}
+        value2={newNumber}
+        onChange2={handleNumberChange}
       />
       <h2>Numbers</h2>
       <Persons
-       persons={persons} 
-       searchInput = {searchInput} 
-       onDeletePerson = {onDeletePerson}/>
+        persons={persons}
+        searchInput={searchInput}
+        onDeletePerson={onDeletePerson}
+        // onChangeNumber={onChangeNumber}
+      />
     </div>
   );
 };

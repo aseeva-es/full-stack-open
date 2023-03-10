@@ -1,6 +1,6 @@
 import Person from "./Person";
 
-const Persons =({ persons, searchInput, onDeletePerson }) => {
+const Persons =({ persons, searchInput, onDeletePerson, onChangeNumber }) => {
     return(
         <>
         {
@@ -12,6 +12,7 @@ const Persons =({ persons, searchInput, onDeletePerson }) => {
                 name = {person.name}
                 number = {person.number} 
                 onDeletePerson={onDeletePerson}
+                onChangeNumber ={onChangeNumber}
                 person={person}/>
                 
             ))
