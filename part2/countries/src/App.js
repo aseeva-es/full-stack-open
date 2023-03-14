@@ -19,12 +19,16 @@ function App() {
     });
   }, []);
 
+  const onShow = (country) => {
+    setSearchInput(country)
+  }
+
   return (
     <div className="App">
       <header className="App-header">
         <h2>Countries</h2>
         <Search onChange={handleSearchInput} value={searchInput} />
-        <CountriesList countries={countries} searchInput={searchInput} />
+        <CountriesList countries={countries} searchInput={searchInput} onShow = {onShow}/>
       </header>
     </div>
   );
