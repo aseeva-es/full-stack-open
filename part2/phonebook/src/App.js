@@ -57,7 +57,7 @@ const App = () => {
                 return person.id === changedPerson.id ? changedPerson : person;
               })
             );
-            showMessage(`${changedPerson.name} changed`, "error");
+            showMessage(`${changedPerson.name} changed`);
             setNewNumber("");
             setNewName("");
           })
